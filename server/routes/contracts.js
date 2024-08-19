@@ -2,6 +2,7 @@ const express = require("express");
 const multer = require("multer");
 const crypto = require("crypto");
 const path = require("path");
+const fs = require("fs");
 const requireAuth = require("../middleware/requireAuth");
 const { addcomment } = require("../controllers/commentController");
 
@@ -20,9 +21,15 @@ const {
 
 const router = express.Router();
 
+const uploadDir = path.join(__dirname, "..", "uploads");
+
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/");
+    cb(null, uploadDir);
   },
   filename: (req, file, cb) => {
     crypto.randomBytes(16, (err, buf) => {
@@ -50,27 +57,19 @@ router.get("/sharedcontractlink/:hashedcontractid", getsharedcontract);
 
 router.use(requireAuth);
 
-router.post(
-  "/uploadcontract",
-  upload.single("file"),
-  uploadContract,
-  (err, req, res, next) => {
-    if (err) {
-      if (err instanceof multer.MulterError) {
-        if (err.code === "LIMIT_FILE_SIZE") {
-          return res
-            .status(400)
-            .json({ error: "File size exceeds 1 MB limit" });
-        }
-      } else {
-        return res.status(400).json({ error: err.message });
-      }
-    }
+router.post("/uploadcontract", upload.single("file"), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: "No file uploaded" });
   }
-);
+  uploadContract(req, res, (err) => {
+    if (err) {
+      return res.status(400).json({ error: err.message });
+    }
+    res.json({ file: req.file });
+  });
+});
 
 router.get("/users", getusers);
-
 router.get("/:userId", getallusercontract);
 router.get("/externalcontracts/:userId", getallexternalcontracts);
 router.get("/allcontracts/:userId", get_all_contracts_that_user_has_access);
@@ -83,7 +82,6 @@ router.get(
   getContractWithComments
 );
 router.get("/contract/:contract_id/getContractComments/", getContractComments);
-
 router.put("/contract/:contract_id/grantaccess", grantaccess);
 
 module.exports = router;
