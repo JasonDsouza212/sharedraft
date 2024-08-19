@@ -11,6 +11,7 @@ import Footer from "./templates/Footer";
 import Externalcontracts from "./templates/Externalcontracts";
 import NotFound from "./templates/NotFound";
 import Sharedcontract from "./templates/sharedlink/Sharedcontract";
+import Loader from "./templates/Loader";
 
 const DraftShareContext = createContext();
 const LOCAL_STORAGE_KEY = "draftshare.user";
@@ -32,7 +33,11 @@ function App() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <Loader />
+      </div>
+    );
   }
 
   return (

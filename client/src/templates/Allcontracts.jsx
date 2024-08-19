@@ -4,6 +4,7 @@ import { DraftShareContext } from "../App";
 import { toast } from "react-hot-toast";
 
 import ListContractstemp from "./ListContractstemp";
+import Loader from "./Loader";
 
 const Allcontracts = () => {
   const { user } = useContext(DraftShareContext);
@@ -40,7 +41,7 @@ const Allcontracts = () => {
   }, [user.user_id, user.token]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   return (

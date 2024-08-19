@@ -10,8 +10,9 @@ import axios from "axios";
 import Documentview from "./Documentview";
 import Comments from "./Comments";
 import Editcontractdetails from "./Editcontractdetails";
-import { Loader } from "lucide-react";
+
 import Sharecontract from "./Sharecontract";
+import Loader from "./Loader";
 
 const ContractDetails = () => {
   const { contract_id } = useParams();
@@ -87,11 +88,7 @@ const ContractDetails = () => {
   };
 
   if (loading) {
-    return (
-      <div>
-        <Loader />
-      </div>
-    );
+    return <Loader />;
   }
 
   if (!contractdata) {
