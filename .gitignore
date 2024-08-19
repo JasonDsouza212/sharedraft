@@ -9,9 +9,8 @@
 /server/.gitignore
 
 .DS_Store
-        .gitignore
-        client/
-        server/
+.gitignore
+
 
 
 
