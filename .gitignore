@@ -1,0 +1,17 @@
+/client/node_modules/
+/client/.git/
+/client/.env
+/client/.gitignore
+
+/server/node_modules/
+/server/.git/
+/server/.env
+/server/.gitignore
+
+.DS_Store
+        .gitignore
+        client/
+        server/
+
+
+
