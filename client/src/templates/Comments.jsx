@@ -38,7 +38,7 @@ const Comments = ({ contractchanged, contract_id }) => {
   }, [contractchanged]);
 
   if (loading) {
-    return <div className="loading">Loading...</div>;
+    return <div className="text-blue-600 font-bold text-xl">Loading...</div>;
   }
 
   if (!comments.length) {
