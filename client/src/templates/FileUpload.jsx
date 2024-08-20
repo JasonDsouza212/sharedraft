@@ -58,6 +58,7 @@ function FileUpload() {
         }
       );
       navigate("/");
+      window.location.reload();
       toast.success("Uploaded successfully");
     } catch (err) {
       toast.error(err?.response?.data?.error ?? "Something went wrong", {
